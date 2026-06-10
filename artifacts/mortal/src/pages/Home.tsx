@@ -180,8 +180,10 @@ export default function Home() {
             <div className="order-1 lg:order-2 relative">
               <div className="relative rounded-2xl overflow-hidden border border-white/10 aspect-video lg:aspect-square group">
                 <img
-                  src="/images/mortal-hero.png"
+                  src="/images/mortal-hero.jpg"
                   alt="High-end gaming setup"
+                  fetchPriority="high"
+                  loading="eager"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
@@ -256,7 +258,7 @@ export default function Home() {
                 name: 'MORTAL EXTREME BUILD',
                 specs: 'RTX 4090 • i9-14900K • 64GB DDR5 • 2TB NVMe',
                 price: '$3,850',
-                image: '/images/mortal-hero.png',
+                image: '/images/mortal-hero.jpg',
                 badge: 'جديد'
               },
               {
@@ -270,7 +272,7 @@ export default function Home() {
                 name: 'MORTAL ENTRY LEVEL',
                 specs: 'RTX 4060 • i5-13400F • 16GB DDR5 • 1TB NVMe',
                 price: '$1,250',
-                image: '/images/mortal-hero.png',
+                image: '/images/mortal-hero.jpg',
               }
             ].map((product, i) => (
               <Card key={i} className="bg-secondary/30 border-white/10 hover:border-primary/50 transition-all overflow-hidden group">
