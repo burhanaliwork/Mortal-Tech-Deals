@@ -1,0 +1,32 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "kFcZKIEjmIo5GLDa-LCwU"
+uri = "file://artifacts/mockup-sandbox/public/images/mortal-hero.png"
+type = "image"
+title = "High-end gaming PC setup"
+
+[[generated]]
+id = "5T_NfKsIuAI8lvEC01_7b"
+uri = "file://artifacts/mockup-sandbox/public/images/mortal-laptops.png"
+type = "image"
+title = "Sleek gaming laptop"
+
+[[generated]]
+id = "_4-7aELsSl9sv4-QdIuFH"
+uri = "file://artifacts/mockup-sandbox/public/images/mortal-monitors.png"
+type = "image"
+title = "Curved gaming monitor"
+
+[[generated]]
+id = "BRARPSQ6SJawmnu1q-S8s"
+uri = "file://artifacts/mockup-sandbox/public/images/mortal-accessories.png"
+type = "image"
+title = "Mechanical keyboard and mouse"
+
+[[generated]]
+id = "NQMHG-0afDcuQQt6Sx1R-"
+uri = "file://artifacts/mockup-sandbox/public/images/mortal-components.png"
+type = "image"
+title = "High-end graphics card"
