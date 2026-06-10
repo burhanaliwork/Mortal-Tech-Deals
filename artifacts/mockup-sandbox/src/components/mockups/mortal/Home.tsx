@@ -356,16 +356,7 @@ export default function MortalHome() {
       <section className="py-20 bg-background border-t border-white/5 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/20 border border-white/5">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                <ShieldCheck className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-3">ضمان حقيقي</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                نقدم ضمان حقيقي وموثوق على جميع القطع والتجميعات مع خدمة استبدال سريعة في حال وجود خلل مصنعي.
-              </p>
-            </div>
+          <div className="grid md:grid-cols-2 gap-8">
             <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/20 border border-white/5">
               <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
                 <Truck className="w-8 h-8 text-blue-500" />
@@ -454,7 +445,7 @@ export default function MortalHome() {
                 </li>
                 <li className="flex items-start gap-3 mt-4">
                   <div className="w-5 h-5 flex items-center justify-center text-primary shrink-0">📍</div>
-                  <span>العراق - بغداد<br/>شارع الصناعة - مجمع النعمان</span>
+                  <span>العراق — الصناعه / مجمع عمان</span>
                 </li>
               </ul>
             </div>
