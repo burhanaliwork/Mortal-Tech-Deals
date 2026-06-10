@@ -57,7 +57,7 @@ export default function Home() {
       </div>
 
       {/* Navbar */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'glass-effect py-3 box-glow' : 'bg-transparent py-5'}`}>
+      <header className={`sticky top-0 z-50 py-4 transition-colors duration-300 ${isScrolled ? 'glass-effect box-glow' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-6">
             <div className="flex-shrink-0 flex items-center gap-3">
