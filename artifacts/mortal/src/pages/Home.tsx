@@ -63,6 +63,12 @@ export default function Home() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const locked = cartOpen || mobileMenuOpen;
+    document.body.style.overflow = locked ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [cartOpen, mobileMenuOpen]);
+
   const tabProducts = products.filter(p => p.category === activeTab);
 
   return (
