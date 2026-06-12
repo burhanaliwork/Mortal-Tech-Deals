@@ -47,10 +47,10 @@ export default function CartDrawer({ open, onClose }: Props) {
 
           {/* Drawer */}
           <motion.div
-            initial={{ x: '-100%' }}
+            initial={{ x: '100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="fixed right-0 top-0 bottom-0 z-[200] w-full max-w-md bg-[hsl(222_47%_7%)] border-l border-white/10 flex flex-col shadow-2xl"
             dir="rtl"
           >

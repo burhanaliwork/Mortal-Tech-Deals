@@ -171,6 +171,12 @@ export default function Home() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               </div>
               <nav className="flex flex-col gap-3 text-lg font-bold">
+                <motion.button
+                  onClick={() => { setMobileMenu(false); window.open(whatsappLink, '_blank'); }}
+                  variants={cardVariant} whileTap={{ scale: 0.97 }}
+                  className="p-3 bg-green-500/10 text-green-400 hover:bg-green-500/20 rounded-lg flex justify-between items-center transition-colors w-full text-right">
+                  تواصل معنا <MessageCircle className="w-5 h-5" />
+                </motion.button>
                 {['الرئيسية', 'لابتوبات', 'تجميعات PC', 'شاشات', 'اكسسوارات'].map((item, i) => (
                   <motion.a key={item} href="#" variants={cardVariant} whileTap={{ scale: 0.97 }}
                     className={`p-3 ${i === 0 ? 'bg-white/5 text-primary' : 'hover:bg-white/5'} rounded-lg flex justify-between items-center transition-colors`}>
@@ -351,14 +357,7 @@ export default function Home() {
             <p className="text-lg text-muted-foreground mb-8">
               تواصل مع فريق المبيعات المختص لدينا عبر الواتساب للحصول على استشارة مجانية.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <MotionButton onClick={() => setCartOpen(true)}
-                whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.06 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 20 }}
-                size="lg" variant="outline"
-                className="h-14 px-8 border-primary/40 hover:bg-primary/10 text-white font-bold text-lg rounded-full">
-                <ShoppingCart className="w-5 h-5 ml-2" /> فتح السلة
-              </MotionButton>
+            <div className="flex justify-center">
               <MotionButton onClick={() => window.open(whatsappLink, '_blank')}
                 whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.06, boxShadow: '0 0 50px rgba(34,197,94,0.5)' }}
                 transition={{ type: 'spring', stiffness: 340, damping: 20 }}
@@ -383,16 +382,6 @@ export default function Home() {
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                 المتجر الأول في العراق المتخصص في بيع وتجميع أجهزة الكمبيوتر الإحترافية واللابتوبات بأسعار تنافسية.
               </p>
-              <div className="flex items-center gap-4 text-muted-foreground">
-                <motion.a whileHover={{ scale: 1.15 }} transition={{ type: 'spring', stiffness: 300 }}
-                  href="tel:+9647880545149" className="hover:text-primary transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><Phone className="w-4 h-4" /></div>
-                </motion.a>
-                <motion.a whileHover={{ scale: 1.15 }} transition={{ type: 'spring', stiffness: 300 }}
-                  href={whatsappLink} target="_blank" rel="noreferrer" className="hover:text-primary transition-colors">
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><MessageCircle className="w-4 h-4" /></div>
-                </motion.a>
-              </div>
             </motion.div>
 
             <motion.div variants={cardVariant}>
@@ -426,13 +415,13 @@ export default function Home() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1, boxShadow: '0 0 35px rgba(0,200,255,0.45)' }}
+            whileHover={{ scale: 1.08, boxShadow: '0 0 28px rgba(0,200,255,0.45)' }}
             transition={{ type: 'spring', stiffness: 380, damping: 22 }}
             onClick={() => setCartOpen(true)}
-            className="fixed bottom-6 left-6 z-[120] w-16 h-16 bg-primary rounded-full flex items-center justify-center text-primary-foreground shadow-[0_0_25px_rgba(0,200,255,0.35)]"
+            className="fixed bottom-5 left-5 z-[120] w-11 h-11 bg-primary rounded-full flex items-center justify-center text-primary-foreground shadow-[0_0_18px_rgba(0,200,255,0.35)]"
           >
-            <ShoppingCart className="w-7 h-7" />
-            <span className="absolute -top-1 -right-1 w-6 h-6 bg-green-500 text-white text-xs font-black flex items-center justify-center rounded-full">
+            <ShoppingCart className="w-5 h-5" />
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white text-[10px] font-black flex items-center justify-center rounded-full">
               {totalItems}
             </span>
           </motion.button>
