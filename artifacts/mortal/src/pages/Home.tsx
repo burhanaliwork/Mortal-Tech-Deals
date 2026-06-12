@@ -247,9 +247,10 @@ export default function Home() {
               </motion.div>
 
               <motion.div custom={0.48} variants={fadeUp} initial="hidden" animate="visible"
-                className="grid grid-cols-2 gap-6 pt-8 mt-4 border-t border-white/10">
+                className="grid grid-cols-3 gap-4 pt-8 mt-4 border-t border-white/10">
                 {[
                   { icon: Truck,       text: 'توصيل سريع لكل محافظات العراق' },
+                  { icon: Cpu,         text: 'تجميع متقن' },
                   { icon: ShieldCheck, text: 'دعم بعد البيع' },
                 ].map(({ icon: Icon, text }) => (
                   <div key={text} className="flex items-center gap-3">
