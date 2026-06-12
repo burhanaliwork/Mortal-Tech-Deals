@@ -294,3 +294,26 @@
     inset: -1px;
   }
 }
+
+/* Smooth button & link transitions */
+button, a {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+a:active {
+  opacity: 0.75;
+}
+
+/* Page fade-in animation */
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-enter {
+  animation: pageFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}

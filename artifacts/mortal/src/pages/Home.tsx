@@ -36,26 +36,7 @@ export default function Home() {
   const whatsappLink = "https://wa.me/9647880545149";
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary/30 selection:text-primary dark">
-      {/* Top Bar */}
-      <div className="bg-secondary text-secondary-foreground py-2 text-xs md:text-sm font-medium border-b border-white/5">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5"><Truck className="w-3.5 h-3.5 text-primary" /> توصيل سريع لكافة محافظات العراق</span>
-            <span className="hidden md:flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-primary" /> ضمان حقيقي على جميع القطع</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="tel:+9647880545149" className="hover:text-primary transition-colors flex items-center gap-1.5" dir="ltr">
-              <Phone className="w-3.5 h-3.5" /> +964 788 054 5149
-            </a>
-            <div className="flex gap-2">
-              <span className="text-primary font-bold cursor-pointer">AR</span>
-              <span className="text-muted-foreground hover:text-foreground cursor-pointer transition-colors">EN</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div dir="rtl" className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary/30 selection:text-primary dark page-enter">
       {/* Navbar */}
       <header className={`sticky top-0 z-50 py-4 transition-colors duration-300 ${isScrolled ? 'glass-effect box-glow' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4">
@@ -88,9 +69,9 @@ export default function Home() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="relative hover:bg-white/5 hover:text-primary rounded-full">
-                <ShoppingCart className="w-5 h-5" />
-                <span className="absolute top-0 right-0 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full">3</span>
+              <Button variant="ghost" size="icon" className="relative hover:bg-white/5 hover:text-primary rounded-full w-12 h-12">
+                <ShoppingCart className="w-7 h-7" />
+                <span className="absolute top-0.5 right-0.5 w-5 h-5 bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center rounded-full">3</span>
               </Button>
               <Button onClick={() => window.open(whatsappLink, '_blank')} className="hidden sm:flex bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-full px-6 transition-all">
                 تواصل معنا <MessageCircle className="w-4 h-4 mr-2" />
@@ -376,7 +357,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center glass-effect p-8 md:p-16 rounded-3xl border border-primary/30">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-6">تحتاج مساعدة في اختيار تجميعتك؟</h2>
             <p className="text-lg text-muted-foreground mb-8">
-              تواصل مع فريق المبيعات المختص لدينا عبر الواتساب للحصول على استشارة مجانية وعروض أسعار مخصصة.
+              تواصل مع فريق المبيعات المختص لدينا عبر الواتساب للحصول على استشارة مجانية.
             </p>
             <Button onClick={() => window.open(whatsappLink, '_blank')} size="lg" className="h-16 px-10 bg-green-500 hover:bg-green-600 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:shadow-[0_0_50px_rgba(34,197,94,0.5)] transition-all">
               <MessageCircle className="w-6 h-6 ml-3" /> راسلنا على واتساب
@@ -388,7 +369,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-secondary/50 pt-16 pb-8 border-t border-white/10">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <img src="/images/mortal-logo.png" alt="Mortal" className="w-10 h-10" />
@@ -414,29 +395,6 @@ export default function Home() {
               </ul>
             </div>
 
-            <div>
-              <h4 className="font-bold text-white text-lg mb-6">خدمة العملاء</h4>
-              <ul className="space-y-4 text-muted-foreground text-sm font-medium">
-                <li><a href="#" className="hover:text-primary transition-colors">اتصل بنا</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">سياسة الاسترجاع</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">تتبع الطلب</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">الأسئلة الشائعة</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold text-white text-lg mb-6">معلومات التواصل</h4>
-              <ul className="space-y-4 text-muted-foreground text-sm">
-                <li className="flex items-start gap-3">
-                  <Phone className="w-5 h-5 text-primary shrink-0" />
-                  <span dir="ltr" className="text-right w-full">+964 788 054 5149</span>
-                </li>
-                <li className="flex items-start gap-3 mt-4">
-                  <div className="w-5 h-5 flex items-center justify-center text-primary shrink-0 text-base">📍</div>
-                  <span>العراق — الصناعه / مجمع عمان</span>
-                </li>
-              </ul>
-            </div>
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
