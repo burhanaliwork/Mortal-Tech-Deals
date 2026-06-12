@@ -108,21 +108,22 @@ export default function Home() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              {/* Cart */}
               <motion.button
                 onClick={() => setCartOpen(true)}
                 whileTap={{ scale: 0.88 }} whileHover={{ scale: 1.08 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                className="relative w-12 h-12 rounded-full hover:bg-white/5 hover:text-primary flex items-center justify-center text-white transition-colors"
+                className="relative w-10 h-10 rounded-full hover:bg-white/8 hover:text-primary flex items-center justify-center text-white transition-colors"
               >
-                <ShoppingCart className="w-7 h-7" />
+                <ShoppingCart className="w-5 h-5" />
                 <AnimatePresence>
                   {totalItems > 0 && (
                     <motion.span
                       key="badge"
                       initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       transition={{ type: 'spring', stiffness: 500, damping: 20 }}
-                      className="absolute top-0.5 right-0.5 w-5 h-5 bg-primary text-primary-foreground text-[11px] font-bold flex items-center justify-center rounded-full"
+                      className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center rounded-full"
                     >
                       {totalItems}
                     </motion.span>
@@ -130,29 +131,29 @@ export default function Home() {
                 </AnimatePresence>
               </motion.button>
 
-              <MotionButton onClick={() => window.open(whatsappLink, '_blank')}
-                whileTap={{ scale: 0.93 }} whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 380, damping: 22 }}
-                className="hidden sm:flex bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-full px-6">
-                تواصل معنا <MessageCircle className="w-4 h-4 mr-2" />
-              </MotionButton>
-
-              <MotionButton variant="ghost" size="icon" whileTap={{ scale: 0.9 }}
-                className="lg:hidden text-white" onClick={() => setMobileMenu(true)}>
-                <Menu className="w-6 h-6" />
-              </MotionButton>
+              {/* Hamburger — always visible */}
+              <motion.button
+                whileTap={{ scale: 0.88 }} whileHover={{ scale: 1.08 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                className="w-10 h-10 rounded-full hover:bg-white/8 flex items-center justify-center text-white transition-colors"
+                onClick={() => setMobileMenu(true)}
+              >
+                <Menu className="w-5 h-5" />
+              </motion.button>
             </div>
           </div>
         </div>
       </motion.header>
 
-      {/* ── Mobile Menu ──────────────────────────────────────── */}
-      <AnimatePresence>
+      {/* ── Nav Menu ─────────────────────────────────────────── */}
+      <AnimatePresence mode="wait">
         {mobileMenuOpen && (
           <motion.div
-            initial={{ x: '100%', opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: '100%', opacity: 0 }}
-            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[100] bg-background/98 backdrop-blur-xl lg:hidden flex flex-col"
+            initial={{ opacity: 0, scale: 0.97, y: -8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-0 z-[100] bg-background/98 backdrop-blur-xl flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b border-white/10">
               <div className="flex items-center gap-3">
