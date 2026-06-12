@@ -230,18 +230,12 @@ export default function Home() {
               </motion.p>
 
               <motion.div custom={0.36} variants={fadeUp} initial="hidden" animate="visible"
-                className="flex flex-col sm:flex-row gap-4 mt-4 justify-center lg:justify-start">
-                <MotionButton size="lg" onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-                  whileTap={{ scale: 0.94 }} whileHover={{ scale: 1.04 }}
-                  transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-                  className="h-14 px-8 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg rounded-full">
-                  تسوق الآن
-                </MotionButton>
-                <MotionButton size="lg" variant="outline"
+                className="flex mt-4 justify-center lg:justify-start">
+                <MotionButton size="lg"
                   onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
                   whileTap={{ scale: 0.94 }} whileHover={{ scale: 1.04 }}
                   transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-                  className="h-14 px-8 border-white/20 hover:bg-white/5 text-white font-bold text-lg rounded-full">
+                  className="h-14 px-10 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg rounded-full">
                   استكشف التجميعات
                 </MotionButton>
               </motion.div>
