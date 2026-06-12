@@ -1,5 +1,10 @@
-import Home from "@/pages/Home";
+import { CartProvider } from '@/context/CartContext';
+import Home from '@/pages/Home';
 
 export default function App() {
-  return <Home />;
+  return (
+    <CartProvider>
+      <Home />
+    </CartProvider>
+  );
 }
