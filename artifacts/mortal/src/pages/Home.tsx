@@ -53,7 +53,7 @@ export default function Home() {
   const [cartOpen, setCartOpen]         = useState(false);
   const [activeTab, setActiveTab]       = useState<Category>('builds');
 
-  const { totalItems } = useCart();
+  const { totalItems, totalPrice } = useCart();
   const whatsappLink = 'https://wa.me/9647880545149';
   const vp = { once: true, amount: 0.15 };
 
@@ -247,10 +247,17 @@ export default function Home() {
               </motion.div>
 
               <motion.div custom={0.48} variants={fadeUp} initial="hidden" animate="visible"
-                className="grid grid-cols-3 gap-4 pt-8 mt-4 border-t border-white/10">
-                {[['500+', 'منتج متوفر'], ['24h', 'توصيل سريع'], ['1Yr', 'ضمان شامل']].map(([val, label]) => (
-                  <div key={label}><h4 className="text-3xl font-black text-white">{val}</h4>
-                    <p className="text-sm text-muted-foreground font-bold">{label}</p></div>
+                className="grid grid-cols-2 gap-6 pt-8 mt-4 border-t border-white/10">
+                {[
+                  { icon: Truck,       text: 'توصيل سريع لكل محافظات العراق' },
+                  { icon: ShieldCheck, text: 'دعم بعد البيع' },
+                ].map(({ icon: Icon, text }) => (
+                  <div key={text} className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <p className="text-sm text-muted-foreground font-bold leading-snug">{text}</p>
+                  </div>
                 ))}
               </motion.div>
             </div>
@@ -417,19 +424,23 @@ export default function Home() {
       <AnimatePresence>
         {totalItems > 0 && (
           <motion.button
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileTap={{ scale: 0.9 }}
-            whileHover={{ scale: 1.08, boxShadow: '0 0 28px rgba(0,200,255,0.45)' }}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            whileTap={{ scale: 0.93 }}
+            whileHover={{ scale: 1.04, boxShadow: '0 0 32px rgba(0,200,255,0.5)' }}
             transition={{ type: 'spring', stiffness: 380, damping: 22 }}
             onClick={() => setCartOpen(true)}
-            className="fixed bottom-5 left-5 z-[120] w-11 h-11 bg-primary rounded-full flex items-center justify-center text-primary-foreground shadow-[0_0_18px_rgba(0,200,255,0.35)]"
+            className="fixed bottom-5 left-5 z-[120] h-12 px-4 bg-primary rounded-full flex items-center gap-2.5 text-primary-foreground shadow-[0_0_22px_rgba(0,200,255,0.35)]"
+            dir="ltr"
           >
-            <ShoppingCart className="w-5 h-5" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 text-white text-[10px] font-black flex items-center justify-center rounded-full">
-              {totalItems}
-            </span>
+            <div className="relative">
+              <ShoppingCart className="w-5 h-5" />
+              <span className="absolute -top-2 -right-2 w-4 h-4 bg-green-500 text-white text-[10px] font-black flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            </div>
+            <span className="font-black text-sm">${totalPrice.toLocaleString()}</span>
           </motion.button>
         )}
       </AnimatePresence>
