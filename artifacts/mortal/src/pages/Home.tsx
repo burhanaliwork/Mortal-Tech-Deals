@@ -313,8 +313,101 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Features ─────────────────────────────────────────── */}
+      {/* ── Featured Offers ──────────────────────────────────── */}
       <section className="py-20 bg-background border-t border-white/5">
+        <div className="container mx-auto px-4">
+          <motion.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={vp} className="mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs mb-4">
+              <Zap className="w-3.5 h-3.5" /> حصري ومحدود
+            </div>
+            <h2 className="text-4xl font-black text-white">عروض مميزة</h2>
+          </motion.div>
+
+          <div className="flex flex-col gap-6">
+            {[
+              {
+                img: '/images/mortal-builds-new.jpg',
+                badge: 'أفضل سعر',
+                title: 'تجميعة RTX 4090 الاحترافية',
+                desc: 'قوة لا تُضاهى في جهاز واحد. تجميعتنا الاحترافية مصممة للاعبين الذين يرفضون المساومة على الأداء.',
+                specs: 'RTX 4090 • i9-14900K • 64GB DDR5 • 2TB NVMe',
+                price: '$3,850',
+                cat: 'builds' as Category,
+                reverse: false,
+              },
+              {
+                img: '/images/mortal-laptops-new.jpg',
+                badge: 'جديد',
+                title: 'لابتوبات جيمينج بأقل الأسعار',
+                desc: 'تشكيلة واسعة من لابتوبات الجيمينج الأقوى في السوق، بضمان رسمي وتوصيل سريع لجميع محافظات العراق.',
+                specs: 'RTX 4070 • Ryzen 9 • 16GB • 240Hz',
+                price: 'يبدأ من $750',
+                cat: 'laptops' as Category,
+                reverse: true,
+              },
+              {
+                img: '/images/mortal-monitors-new.jpg',
+                badge: 'الأكثر مبيعاً',
+                title: 'شاشات 4K وعالية المعدل',
+                desc: 'شاشات سامسونج وLG وASUS بأعلى معدلات التحديث وأوضح جودة ألوان. اشعر بالفرق الحقيقي أثناء اللعب.',
+                specs: '4K UHD • حتى 240Hz • G-Sync • HDR',
+                price: 'يبدأ من $220',
+                cat: 'monitors' as Category,
+                reverse: false,
+              },
+            ].map((offer, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp}
+                custom={i * 0.1}
+                initial="hidden"
+                whileInView="visible"
+                viewport={vp}
+                className={`flex flex-col ${offer.reverse ? 'md:flex-row-reverse' : 'md:flex-row'} rounded-2xl overflow-hidden border border-white/10 hover:border-primary/30 transition-colors duration-300 bg-white/3 group`}
+              >
+                {/* Image — half */}
+                <div className="md:w-1/2 aspect-video md:aspect-auto relative overflow-hidden">
+                  <img
+                    src={offer.img}
+                    alt={offer.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 bg-gradient-to-${offer.reverse ? 'l' : 'r'} from-transparent to-background/60`} />
+                  {offer.badge && (
+                    <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs font-black px-3 py-1 rounded-full">
+                      {offer.badge}
+                    </span>
+                  )}
+                </div>
+
+                {/* Text — half */}
+                <div className="md:w-1/2 flex flex-col justify-center p-8 md:p-12 gap-5">
+                  <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">{offer.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{offer.desc}</p>
+                  <p className="text-xs font-mono text-primary/80 bg-primary/5 border border-primary/10 rounded-lg px-3 py-2" dir="ltr">
+                    {offer.specs}
+                  </p>
+                  <div className="flex items-center justify-between pt-2">
+                    <span className="text-2xl font-black text-primary" dir="ltr">{offer.price}</span>
+                    <motion.button
+                      onClick={() => navigate(`/category/${offer.cat}`)}
+                      whileTap={{ scale: 0.93 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: 'spring', stiffness: 360, damping: 22 }}
+                      className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-full text-sm transition-colors"
+                    >
+                      تسوق الآن
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Features ─────────────────────────────────────────── */}
+      <section className="py-20 bg-secondary/10 border-t border-white/5">
         <div className="container mx-auto px-4">
           <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={vp}
             className="grid md:grid-cols-2 gap-8">
