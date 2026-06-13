@@ -1,18 +1,101 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ShoppingCart, Menu, X, Search, MessageCircle } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Menu, X, Search, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { useRoute, useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
 import CartDrawer from '@/components/CartDrawer';
 import ProductDetailModal from '@/components/ProductDetailModal';
-import { products, categoryLabels, type Category } from '@/data/products';
+import { products, categoryLabels, type Category, type Product } from '@/data/products';
 
 const cardVariant = {
   hidden: { opacity: 0, y: 30, scale: 0.97 },
   visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 };
+
+function ProductItem({
+  product,
+  onDetail,
+}: {
+  product: Product;
+  onDetail: () => void;
+}) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1400);
+  };
+
+  return (
+    <motion.div
+      variants={cardVariant}
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+      className="bg-white/5 border border-white/10 hover:border-primary/40 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col group transition-colors duration-300"
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/3] overflow-hidden bg-black/30 cursor-pointer" onClick={onDetail}>
+        {product.badge && (
+          <Badge className="absolute top-2 right-2 z-10 bg-primary text-primary-foreground font-bold rounded-md px-2 py-0.5 text-[10px] sm:text-xs">
+            {product.badge}
+          </Badge>
+        )}
+        <img
+          src={product.image}
+          alt={product.nameAr}
+          className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-3 sm:p-4 flex flex-col flex-1 gap-2 sm:gap-3">
+        <div className="cursor-pointer" onClick={onDetail}>
+          <h3 className="font-black text-white text-sm sm:text-base leading-snug line-clamp-2 mb-1">
+            {product.nameAr}
+          </h3>
+          <p className="text-[10px] sm:text-xs text-muted-foreground font-mono leading-relaxed line-clamp-2" dir="ltr">
+            {product.specs}
+          </p>
+        </div>
+
+        <div className="mt-auto pt-2 sm:pt-3 border-t border-white/5 flex flex-col gap-2">
+          <span className="text-lg sm:text-xl font-black text-primary" dir="ltr">
+            {product.priceLabel}
+          </span>
+          <div className="flex gap-2">
+            <motion.button
+              onClick={onDetail}
+              whileTap={{ scale: 0.92 }}
+              className="flex-1 text-[11px] sm:text-xs font-bold border border-primary/40 text-primary hover:bg-primary/10 rounded-lg py-2 transition-colors"
+            >
+              عرض التفاصيل
+            </motion.button>
+            <motion.button
+              onClick={handleAdd}
+              whileTap={{ scale: 0.92 }}
+              className={`flex-1 flex items-center justify-center gap-1 text-[11px] sm:text-xs font-bold rounded-lg py-2 transition-colors duration-300 ${
+                added
+                  ? 'bg-green-500 text-white'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/90'
+              }`}
+            >
+              {added ? (
+                <><CheckCircle2 className="w-3 h-3" /> تمت</>
+              ) : (
+                <><ShoppingCart className="w-3 h-3" /> أضف</>
+              )}
+            </motion.button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 const staggerContainer = {
   hidden: {},
@@ -190,68 +273,28 @@ export default function CategoryPage() {
         </div>
       </div>
 
-      {/* Products Grid — 2 columns */}
-      <section className="py-16">
+      {/* Products Grid — always 2 columns */}
+      <section className="py-12">
         <div className="container mx-auto px-4">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto"
-          >
-            {categoryProducts.map(product => (
-              <motion.div
-                key={product.id}
-                variants={cardVariant}
-                whileHover={{ y: -6 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-                onClick={() => setSelectedProduct(product)}
-                className="bg-white/5 border border-white/10 hover:border-primary/40 rounded-2xl overflow-hidden flex flex-col group transition-colors duration-300 cursor-pointer"
-              >
-                {/* Image */}
-                <div className="relative aspect-video overflow-hidden bg-black/30">
-                  {product.badge && (
-                    <Badge className="absolute top-3 right-3 z-10 bg-primary text-primary-foreground font-bold rounded-md px-2 py-0.5 text-xs">
-                      {product.badge}
-                    </Badge>
-                  )}
-                  <img
-                    src={product.image}
-                    alt={product.nameAr}
-                    className="w-full h-full object-cover opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-600"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                    <span className="text-white font-bold text-sm bg-primary/80 px-4 py-1.5 rounded-full">
-                      عرض التفاصيل
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-5 flex flex-col flex-1 gap-3">
-                  <div>
-                    <h3 className="font-black text-white text-lg leading-snug mb-1">{product.nameAr}</h3>
-                    <p className="text-xs text-muted-foreground font-mono leading-relaxed" dir="ltr">
-                      {product.specs}
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
-                    <span className="text-2xl font-black text-primary" dir="ltr">
-                      {product.priceLabel}
-                    </span>
-                    <span className="text-xs text-primary border border-primary/30 px-3 py-1 rounded-full font-bold">
-                      عرض التفاصيل
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {categoryProducts.length === 0 && (
+          {categoryProducts.length === 0 ? (
             <div className="text-center py-24 text-muted-foreground">
               <p className="text-xl font-bold">لا توجد منتجات في هذه الفئة حالياً</p>
             </div>
+          ) : (
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-2 gap-3 sm:gap-5"
+            >
+              {categoryProducts.map(product => (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                  onDetail={() => setSelectedProduct(product)}
+                />
+              ))}
+            </motion.div>
           )}
         </div>
       </section>

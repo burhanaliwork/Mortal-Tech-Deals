@@ -218,7 +218,7 @@ export default function Home() {
               <motion.h1 custom={0.12} variants={fadeUp} initial="hidden" animate="visible"
                 className="text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                 ارفع مستوى <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-blue-500">اللعب الخاص بك</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-l from-primary to-blue-500">لعبك</span>
               </motion.h1>
 
               <motion.p custom={0.24} variants={fadeUp} initial="hidden" animate="visible"
