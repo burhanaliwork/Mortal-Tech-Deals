@@ -3,14 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShoppingCart, Search, Menu, X, ChevronLeft,
   Monitor, Cpu, Headset, Laptop,
-  ShieldCheck, Truck, Zap, Clock, MessageCircle
+  ShieldCheck, Truck, Zap, Clock, MessageCircle, CheckCircle2
 } from 'lucide-react';
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useCart } from '@/context/CartContext';
 import CartDrawer from '@/components/CartDrawer';
-import { categoryLabels, type Category } from '@/data/products';
+import ProductDetailModal from '@/components/ProductDetailModal';
+import { products, categoryLabels, type Category, type Product } from '@/data/products';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -46,10 +48,112 @@ const CATEGORIES: { key: Category; label: string; icon: React.ElementType; img: 
   { key: 'accessories', label: 'ملحقات',   icon: Headset, img: '/images/mortal-accessories-new.jpg' },
 ];
 
+const FEATURED_IDS = ['build-extreme', 'laptop-rog', 'monitor-lg-4k', 'acc-keyboard-k70'];
+const featuredProducts = products.filter(p => FEATURED_IDS.includes(p.id));
+
+function FeaturedCard({
+  product,
+  onSelect,
+}: {
+  product: Product;
+  onSelect: (p: Product) => void;
+}) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1400);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -5 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+      className="bg-white/5 border border-white/10 hover:border-primary/40 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col group transition-colors duration-300"
+    >
+      {/* Image */}
+      <div
+        className="relative aspect-[4/3] overflow-hidden bg-black/30 cursor-pointer"
+        onClick={() => onSelect(product)}
+      >
+        {product.badge && (
+          <Badge className="absolute top-2 right-2 z-10 bg-primary text-primary-foreground font-bold rounded-md px-2 py-0.5 text-[10px] sm:text-xs">
+            {product.badge}
+          </Badge>
+        )}
+        <img
+          src={product.image}
+          alt={product.nameAr}
+          className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-3 sm:p-4 flex flex-col flex-1 gap-2 sm:gap-3">
+        <div className="cursor-pointer" onClick={() => onSelect(product)}>
+          <h3 className="font-black text-white text-sm sm:text-base leading-snug line-clamp-2 mb-1">
+            {product.nameAr}
+          </h3>
+          <p className="text-[10px] sm:text-xs text-muted-foreground font-mono leading-relaxed line-clamp-2" dir="ltr">
+            {product.specs}
+          </p>
+        </div>
+
+        <div className="mt-auto pt-2 sm:pt-3 border-t border-white/5 flex flex-col gap-2">
+          <span className="text-lg sm:text-xl font-black text-primary" dir="ltr">
+            {product.priceLabel}
+          </span>
+          <div className="flex gap-2">
+            <motion.button
+              onClick={() => onSelect(product)}
+              whileTap={{ scale: 0.92 }}
+              className="flex-1 text-[11px] sm:text-xs font-bold border border-primary/40 text-primary hover:bg-primary/10 rounded-lg py-2 transition-colors"
+            >
+              عرض التفاصيل
+            </motion.button>
+            <motion.button
+              onClick={handleAdd}
+              whileTap={{ scale: 0.92 }}
+              className={`flex-1 flex items-center justify-center gap-1 text-[11px] sm:text-xs font-bold rounded-lg py-2 transition-colors duration-300 ${
+                added
+                  ? 'bg-green-500 text-white'
+                  : 'bg-primary text-primary-foreground hover:bg-primary/90'
+              }`}
+            >
+              {added ? (
+                <><CheckCircle2 className="w-3 h-3" /> تمت</>
+              ) : (
+                <><ShoppingCart className="w-3 h-3" /> أضف</>
+              )}
+            </motion.button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function FeaturedGrid({ onSelect }: { onSelect: (p: Product) => void }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:gap-5">
+      {featuredProducts.map(product => (
+        <FeaturedCard key={product.id} product={product} onSelect={onSelect} />
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
-  const [isScrolled, setIsScrolled]     = useState(false);
-  const [mobileMenuOpen, setMobileMenu] = useState(false);
-  const [cartOpen, setCartOpen]         = useState(false);
+  const [isScrolled, setIsScrolled]       = useState(false);
+  const [mobileMenuOpen, setMobileMenu]   = useState(false);
+  const [cartOpen, setCartOpen]           = useState(false);
+  const [selectedProduct, setSelected]    = useState<Product | null>(null);
   const [, navigate] = useLocation();
 
   const { totalItems } = useCart();
@@ -72,6 +176,9 @@ export default function Home() {
     <div dir="rtl" className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary/30 selection:text-primary dark">
 
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      {selectedProduct && (
+        <ProductDetailModal product={selectedProduct} onClose={() => setSelected(null)} />
+      )}
 
       {/* ── Navbar ───────────────────────────────────────────── */}
       <motion.header
@@ -323,86 +430,8 @@ export default function Home() {
             <h2 className="text-4xl font-black text-white">عروض مميزة</h2>
           </motion.div>
 
-          <div className="flex flex-col gap-6">
-            {[
-              {
-                img: '/images/mortal-builds-new.jpg',
-                badge: 'أفضل سعر',
-                title: 'تجميعة RTX 4090 الاحترافية',
-                desc: 'قوة لا تُضاهى في جهاز واحد. تجميعتنا الاحترافية مصممة للاعبين الذين يرفضون المساومة على الأداء.',
-                specs: 'RTX 4090 • i9-14900K • 64GB DDR5 • 2TB NVMe',
-                price: '$3,850',
-                cat: 'builds' as Category,
-                reverse: false,
-              },
-              {
-                img: '/images/mortal-laptops-new.jpg',
-                badge: 'جديد',
-                title: 'لابتوبات جيمينج بأقل الأسعار',
-                desc: 'تشكيلة واسعة من لابتوبات الجيمينج الأقوى في السوق، بضمان رسمي وتوصيل سريع لجميع محافظات العراق.',
-                specs: 'RTX 4070 • Ryzen 9 • 16GB • 240Hz',
-                price: 'يبدأ من $750',
-                cat: 'laptops' as Category,
-                reverse: true,
-              },
-              {
-                img: '/images/mortal-monitors-new.jpg',
-                badge: 'الأكثر مبيعاً',
-                title: 'شاشات 4K وعالية المعدل',
-                desc: 'شاشات سامسونج وLG وASUS بأعلى معدلات التحديث وأوضح جودة ألوان. اشعر بالفرق الحقيقي أثناء اللعب.',
-                specs: '4K UHD • حتى 240Hz • G-Sync • HDR',
-                price: 'يبدأ من $220',
-                cat: 'monitors' as Category,
-                reverse: false,
-              },
-            ].map((offer, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                custom={i * 0.1}
-                initial="hidden"
-                whileInView="visible"
-                viewport={vp}
-                className={`flex flex-col ${offer.reverse ? 'md:flex-row-reverse' : 'md:flex-row'} rounded-2xl overflow-hidden border border-white/10 hover:border-primary/30 transition-colors duration-300 bg-white/3 group`}
-              >
-                {/* Image — half */}
-                <div className="md:w-1/2 aspect-video md:aspect-auto relative overflow-hidden">
-                  <img
-                    src={offer.img}
-                    alt={offer.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-${offer.reverse ? 'l' : 'r'} from-transparent to-background/60`} />
-                  {offer.badge && (
-                    <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-xs font-black px-3 py-1 rounded-full">
-                      {offer.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* Text — half */}
-                <div className="md:w-1/2 flex flex-col justify-center p-8 md:p-12 gap-5">
-                  <h3 className="text-2xl md:text-3xl font-black text-white leading-tight">{offer.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{offer.desc}</p>
-                  <p className="text-xs font-mono text-primary/80 bg-primary/5 border border-primary/10 rounded-lg px-3 py-2" dir="ltr">
-                    {offer.specs}
-                  </p>
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-2xl font-black text-primary" dir="ltr">{offer.price}</span>
-                    <motion.button
-                      onClick={() => navigate(`/category/${offer.cat}`)}
-                      whileTap={{ scale: 0.93 }}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-                      className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-full text-sm transition-colors"
-                    >
-                      تسوق الآن
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* 2-column featured product grid */}
+          <FeaturedGrid onSelect={setSelected} />
         </div>
       </section>
 
