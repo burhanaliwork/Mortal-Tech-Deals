@@ -40,11 +40,11 @@ const cardVariant = {
 };
 
 const MotionButton = motion.create(Button);
-const CATEGORIES: { key: Category; label: string; icon: React.ElementType }[] = [
-  { key: 'builds',      label: 'تجميعات PC',  icon: Cpu     },
-  { key: 'laptops',     label: 'لابتوبات',     icon: Laptop  },
-  { key: 'monitors',    label: 'شاشات',        icon: Monitor },
-  { key: 'accessories', label: 'اكسسوارات',   icon: Headset },
+const CATEGORIES: { key: Category; label: string; icon: React.ElementType; img: string }[] = [
+  { key: 'builds',      label: 'تجميعات PC',  icon: Cpu,     img: '/images/mortal-builds-new.jpg'      },
+  { key: 'laptops',     label: 'لابتوبات',     icon: Laptop,  img: '/images/mortal-laptops-new.jpg'     },
+  { key: 'monitors',    label: 'شاشات',        icon: Monitor, img: '/images/mortal-monitors-new.jpg'    },
+  { key: 'accessories', label: 'اكسسوارات',   icon: Headset, img: '/images/mortal-accessories-new.jpg' },
 ];
 
 export default function Home() {
@@ -288,27 +288,32 @@ export default function Home() {
             <h2 className="text-4xl font-black text-white">تسوق حسب الفئة</h2>
           </motion.div>
 
-          {/* Tabs */}
+          {/* Tabs — circular images */}
           <motion.div variants={fadeUp} custom={0.1} initial="hidden" whileInView="visible" viewport={vp}
-            className="flex flex-wrap gap-3 mb-10">
-            {CATEGORIES.map(({ key, label, icon: Icon }) => (
+            className="flex flex-wrap justify-center gap-8 mb-12">
+            {CATEGORIES.map(({ key, img }) => (
               <motion.button
                 key={key}
-                onClick={() => setActiveTab(key)}
-                whileTap={{ scale: 0.93 }}
-                whileHover={{ scale: 1.04 }}
+                onClick={() => {
+                  setActiveTab(key);
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: 1.07 }}
                 transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${
-                  activeTab === key
-                    ? 'bg-primary text-primary-foreground shadow-[0_0_20px_rgba(0,200,255,0.3)]'
-                    : 'bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-white border border-white/10'
-                }`}
+                className="flex flex-col items-center gap-0 focus:outline-none group"
               >
-                <Icon className="w-4 h-4" />
-                {label}
-                <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeTab === key ? 'bg-white/20' : 'bg-white/10'}`}>
-                  {products.filter(p => p.category === key).length}
-                </span>
+                <div className={`w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 transition-all duration-300 ${
+                  activeTab === key
+                    ? 'border-primary shadow-[0_0_24px_rgba(0,200,255,0.5)]'
+                    : 'border-white/10 group-hover:border-primary/60'
+                }`}>
+                  <img
+                    src={img}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </motion.button>
             ))}
           </motion.div>
