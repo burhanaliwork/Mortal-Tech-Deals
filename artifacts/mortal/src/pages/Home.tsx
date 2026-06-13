@@ -2,16 +2,15 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShoppingCart, Search, Menu, X, ChevronLeft,
-  Phone, Monitor, Cpu, Headset, Laptop,
+  Monitor, Cpu, Headset, Laptop,
   ShieldCheck, Truck, Zap, Clock, MessageCircle
 } from 'lucide-react';
+import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
 import CartDrawer from '@/components/CartDrawer';
-import ProductCard from '@/components/ProductCard';
-import { products, categoryLabels, type Category } from '@/data/products';
+import { categoryLabels, type Category } from '@/data/products';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -41,19 +40,19 @@ const cardVariant = {
 
 const MotionButton = motion.create(Button);
 const CATEGORIES: { key: Category; label: string; icon: React.ElementType; img: string }[] = [
-  { key: 'builds',      label: 'تجميعات PC',  icon: Cpu,     img: '/images/mortal-builds-new.jpg'      },
-  { key: 'laptops',     label: 'لابتوبات',     icon: Laptop,  img: '/images/mortal-laptops-new.jpg'     },
-  { key: 'monitors',    label: 'شاشات',        icon: Monitor, img: '/images/mortal-monitors-new.jpg'    },
-  { key: 'accessories', label: 'اكسسوارات',   icon: Headset, img: '/images/mortal-accessories-new.jpg' },
+  { key: 'builds',      label: 'PC',        icon: Cpu,     img: '/images/mortal-builds-new.jpg'      },
+  { key: 'laptops',     label: 'Laptop',    icon: Laptop,  img: '/images/mortal-laptops-new.jpg'     },
+  { key: 'monitors',    label: 'شاشات',     icon: Monitor, img: '/images/mortal-monitors-new.jpg'    },
+  { key: 'accessories', label: 'ملحقات',   icon: Headset, img: '/images/mortal-accessories-new.jpg' },
 ];
 
 export default function Home() {
   const [isScrolled, setIsScrolled]     = useState(false);
   const [mobileMenuOpen, setMobileMenu] = useState(false);
   const [cartOpen, setCartOpen]         = useState(false);
-  const [activeTab, setActiveTab]       = useState<Category>('builds');
+  const [, navigate] = useLocation();
 
-  const { totalItems, totalPrice } = useCart();
+  const { totalItems } = useCart();
   const whatsappLink = 'https://wa.me/9647880545149';
   const vp = { once: true, amount: 0.15 };
 
@@ -68,8 +67,6 @@ export default function Home() {
     document.body.style.overflow = locked ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [cartOpen, mobileMenuOpen]);
-
-  const tabProducts = products.filter(p => p.category === activeTab);
 
   return (
     <div dir="rtl" className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary/30 selection:text-primary dark">
@@ -288,51 +285,31 @@ export default function Home() {
             <h2 className="text-4xl font-black text-white">تسوق حسب الفئة</h2>
           </motion.div>
 
-          {/* Tabs — circular images */}
+          {/* Category circles with labels */}
           <motion.div variants={fadeUp} custom={0.1} initial="hidden" whileInView="visible" viewport={vp}
-            className="flex flex-wrap justify-center gap-8 mb-12">
-            {CATEGORIES.map(({ key, img }) => (
+            className="flex flex-wrap justify-center gap-10 mb-4">
+            {CATEGORIES.map(({ key, label, img }) => (
               <motion.button
                 key={key}
-                onClick={() => {
-                  setActiveTab(key);
-                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => navigate(`/category/${key}`)}
                 whileTap={{ scale: 0.92 }}
                 whileHover={{ scale: 1.07 }}
                 transition={{ type: 'spring', stiffness: 360, damping: 22 }}
-                className="flex flex-col items-center gap-0 focus:outline-none group"
+                className="flex flex-col items-center gap-3 focus:outline-none group"
               >
-                <div className={`w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 transition-all duration-300 ${
-                  activeTab === key
-                    ? 'border-primary shadow-[0_0_24px_rgba(0,200,255,0.5)]'
-                    : 'border-white/10 group-hover:border-primary/60'
-                }`}>
+                <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-white/10 group-hover:border-primary/70 group-hover:shadow-[0_0_24px_rgba(0,200,255,0.45)] transition-all duration-300">
                   <img
                     src={img}
-                    alt=""
-                    className="w-full h-full object-cover"
+                    alt={label}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
+                <span className="text-white font-bold text-base tracking-wide group-hover:text-primary transition-colors duration-200">
+                  {label}
+                </span>
               </motion.button>
             ))}
           </motion.div>
-
-          {/* Products Grid */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
-            >
-              {tabProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </motion.div>
-          </AnimatePresence>
         </div>
       </section>
 
@@ -400,9 +377,9 @@ export default function Home() {
             <motion.div variants={cardVariant}>
               <h4 className="font-bold text-white text-lg mb-6">الأقسام</h4>
               <ul className="space-y-4 text-muted-foreground text-sm font-medium">
-                {Object.values(categoryLabels).map((label) => (
-                  <li key={label}>
-                    <motion.button onClick={() => { setActiveTab(Object.keys(categoryLabels).find(k => categoryLabels[k as Category] === label) as Category); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }}
+                {(Object.entries(categoryLabels) as [Category, string][]).map(([key, label]) => (
+                  <li key={key}>
+                    <motion.button onClick={() => navigate(`/category/${key}`)}
                       whileHover={{ x: -4, color: 'hsl(var(--primary))' }}
                       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       className="hover:text-primary transition-colors text-right">
@@ -440,7 +417,7 @@ export default function Home() {
                 {totalItems}
               </span>
             </div>
-            <span className="font-black text-sm">${totalPrice.toLocaleString()}</span>
+            <span className="font-black text-sm">{totalItems} منتج</span>
           </motion.button>
         )}
       </AnimatePresence>
