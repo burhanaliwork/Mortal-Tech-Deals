@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -192,9 +193,6 @@
   --shadow-xl: 0px 25px 50px -12px hsl(187 100% 42% / 0.25);
   --shadow-2xl: 0px 25px 50px -12px hsl(187 100% 42% / 0.25);
 }
-
-/* Google Font — Cairo for Arabic */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 
 /* Custom utility classes */
 .glass-effect {
